@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+      <a class="navbar-brand" href="#">Welcome...</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'ecommerce_app:allProdCat' %}"><b>Home</b> <span class="sr-only"></span></a>
+      </li>
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <b> Shop</b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'ecommerce_app:allProdCat' %}"><b>All Products</b></a>
+           {% for l in links %}
+            <a class="dropdown-item" href="{{l.get_url}}"> <b>{{l.name}}</b></a>
+            {% endfor %}
+        </div>
+      </li>
+
+        {% if user.is_authenticated %}
+        <div class="text-justify">
+        <li><h6 style="color:black" ><b>Hai {{user.username}}</b></h6></li>
+            </div>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'account:logout' %}"><b>Logout</b> <span class="sr-only"></span></a>
+      </li>
+
+        {%  if item_count > 0 %}
+          <div class="container">
+              <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+               <a class="nav-link " href="{% url 'cart:cart_view' %}" ><i class="fas fa-cart-plus">{{item_count}}</i></a>
+        </li>
+              </ul>
+           </div>
+        {% endif %}
+        {% else %}
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'account:registration' %}"><b>Registration</b> <span class="sr-only"></span></a>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'account:login' %}"><b>Login</b> <span class="sr-only"></span></a>
+      </li>
+
+                {% endif %}
+
+</ul>
+<!--        {%  if item_count > 0 %}-->
+<!--          <div class="container">-->
+<!--              <ul class="navbar-nav mr-auto">-->
+<!--        <li class="nav-item active">-->
+<!--               <a class="nav-link " href="{% url 'cart:cart_view' %}" ><i class="fas fa-cart-plus">{{item_count}}</i></a>-->
+<!--        </li>-->
+<!--              </ul>-->
+<!--           </div>-->
+<!--        {% endif %}-->
+
+        </div>
+    <form class="form-inline my-2 my-lg-0 " action="{% url 'search_app:searchResult' %}" method="get">
+        {% csrf_token %}
+        <div class="input-group">
+        <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" name="q">
+        <button class="btn btn-outline-success my-2 my-sm-0 " type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+</nav>
